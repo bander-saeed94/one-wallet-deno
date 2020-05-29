@@ -11,7 +11,10 @@ export const up = (schema: Schema): void => {
       ["'monthlyContribution'", "'monthlyInstallment'"],
     );
     table.uuid("loan_id").nullable();
-    table.boolean("approved");
+    table.enum(
+      "deposit_status",
+      ["'instantiated'", "'approved'", "'reject'"],
+    ).default("'instantiated'");
     table.timestampsTz();
     console.log(table.toSql());
   });
@@ -39,4 +42,5 @@ export const up = (schema: Schema): void => {
 export const down = (schema: Schema): void => {
   schema.drop("tbl_deposit");
   schema.queryString("DROP TYPE deposit_type;");
+  schema.queryString("DROP TYPE deposit_status;");
 };

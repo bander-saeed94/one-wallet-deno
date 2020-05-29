@@ -6,7 +6,10 @@ export const up = (schema: Schema): void => {
     table.uuid("user_id");
     table.uuid("wallet_id");
     table.money("amount");
-    table.boolean("approved").default("false");
+    table.enum(
+      "loan_status",
+      ["'instantiated'", "'approved'", "'reject'"],
+    ).default("'instantiated'");
     table.timestampsTz();
   });
   schema.queryString(`
@@ -26,4 +29,5 @@ export const up = (schema: Schema): void => {
 
 export const down = (schema: Schema): void => {
   schema.drop("tbl_loan");
+  schema.queryString("DROP TYPE loan_status;");
 };
