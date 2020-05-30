@@ -3,8 +3,8 @@ import { Schema } from "https://deno.land/x/nessie/mod.ts";
 export const up = (schema: Schema): void => {
   schema.create("tbl_wallet", (table) => {
     table.uuid("id").primary();
-    table.uuid("admin_id").custom("");
-    table.string("wallet_name", 100);
+    table.uuid("admin_id");
+    table.string("name", 100).default("update wallet name");
     table.timestampsTz();
   });
   schema.queryString(`
