@@ -5,10 +5,10 @@ export const up = (schema: Schema): void => {
     table.uuid("id").primary();
     table.uuid("user_id");
     table.uuid("wallet_id");
-    table.money("amount");
+    table.decimal("amount", 6, 2);
     table.enum(
       "loan_status",
-      ["'instantiated'", "'approved'", "'reject'"],
+      ["'instantiated'", "'approved'", "'rejected'"],
     ).default("'instantiated'");
     table.timestampsTz();
   });

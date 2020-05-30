@@ -13,10 +13,9 @@ export const up = (schema: Schema): void => {
     table.uuid("loan_id").nullable();
     table.enum(
       "deposit_status",
-      ["'instantiated'", "'approved'", "'reject'"],
+      ["'instantiated'", "'approved'", "'rejected'"],
     ).default("'instantiated'");
     table.timestampsTz();
-    console.log(table.toSql());
   });
   schema.queryString(`
     ALTER TABLE tbl_deposit
