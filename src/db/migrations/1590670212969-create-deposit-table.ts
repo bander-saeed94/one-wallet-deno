@@ -21,7 +21,7 @@ export const up: Migration = () => {
       "deposit_status",
       ["instantiated", "approved", "rejected"],
     )
-    .default("'instantiated'");// fix nessie
+      .default("'instantiated'"); // fix nessie
     table.timestampsTz();
   });
   schema.queryString(`

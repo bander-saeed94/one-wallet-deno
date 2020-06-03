@@ -5,7 +5,7 @@ import { database } from "../../../config/index.ts";
 const dialect: dbDialects = database.migration_dialect as dbDialects;
 
 export const up: Migration = () => {
-   return new Schema(dialect).create("tbl_user", (table) => {
+  return new Schema(dialect).create("tbl_user", (table) => {
     table.uuid("id").primary();
     table.string("username", 25).notNullable().unique();
     table.string("email", 35).nullable().default("null").unique();
