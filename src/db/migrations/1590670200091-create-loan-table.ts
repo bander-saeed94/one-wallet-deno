@@ -1,15 +1,22 @@
-import { Schema } from "https://deno.land/x/nessie/mod.ts";
+import { Migration } from "https://deno.land/x/nessie/mod.ts";
+import { Schema, dbDialects } from "https://deno.land/x/nessie/qb.ts";
+import { database } from "../../../config/index.ts";
 
-export const up = (schema: Schema): void => {
+const dialect: dbDialects = database.migration_dialect as dbDialects;
+
+export const up: Migration = () => {
+  const schema = new Schema(dialect);
+
   schema.create("tbl_loan", (table) => {
     table.uuid("id").primary();
     table.uuid("user_id");
     table.uuid("wallet_id");
-    table.decimal("amount", 6, 2);
+    table.numeric("amount", 6, 2);
     table.enum(
       "loan_status",
-      ["'instantiated'", "'approved'", "'rejected'"],
-    ).default("'instantiated'");
+      ["instantiated", "approved", "rejected"],
+    )
+      .default("'instantiated'");
     table.timestampsTz();
   });
   schema.queryString(`
@@ -25,9 +32,12 @@ export const up = (schema: Schema): void => {
     REFERENCES tbl_wallet(id)
     ON DELETE CASCADE;
     `);
+  return schema.query;
 };
 
-export const down = (schema: Schema): void => {
+export const down: Migration = () => {
+  const schema = new Schema(dialect);
   schema.drop("tbl_loan");
   schema.queryString("DROP TYPE loan_status;");
+  return schema.query;
 };

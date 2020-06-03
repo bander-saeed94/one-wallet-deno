@@ -1,6 +1,12 @@
-import { Schema } from "https://deno.land/x/nessie/mod.ts";
+import { Migration } from "https://deno.land/x/nessie/mod.ts";
+import { Schema, dbDialects } from "https://deno.land/x/nessie/qb.ts";
+import { database } from "../../../config/index.ts";
 
-export const up = (schema: Schema): void => {
+const dialect: dbDialects = database.migration_dialect as dbDialects;
+
+export const up: Migration = () => {
+  const schema = new Schema(dialect);
+
   schema.create("tbl_deposit", (table) => {
     table.uuid("id").primary();
     table.uuid("user_id");
@@ -8,13 +14,14 @@ export const up = (schema: Schema): void => {
     table.money("amount");
     table.enum(
       "deposit_type",
-      ["'monthlyContribution'", "'monthlyInstallment'"],
+      ["monthlyContribution", "monthlyInstallment"],
     );
     table.uuid("loan_id").nullable();
     table.enum(
       "deposit_status",
-      ["'instantiated'", "'approved'", "'rejected'"],
-    ).default("'instantiated'");
+      ["instantiated", "approved", "rejected"],
+    )
+      .default("'instantiated'"); // fix nessie
     table.timestampsTz();
   });
   schema.queryString(`
@@ -36,10 +43,13 @@ export const up = (schema: Schema): void => {
     REFERENCES tbl_loan(id)
     ON DELETE CASCADE;
     `);
+  return schema.query;
 };
 
-export const down = (schema: Schema): void => {
+export const down: Migration = () => {
+  const schema = new Schema(dialect);
   schema.drop("tbl_deposit");
   schema.queryString("DROP TYPE deposit_type;");
   schema.queryString("DROP TYPE deposit_status;");
+  return schema.query;
 };

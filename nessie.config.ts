@@ -1,15 +1,18 @@
 import { database } from "./config/index.ts";
+import {
+  ClientPostgreSQL,
+  nessieConfig,
+} from "https://deno.land/x/nessie/mod.ts";
+const migrationFolder = "./src/db/migrations";
 
-const configPg = {
-  migrationFolder: `./migrations`,
-  connection: {
+const config: nessieConfig = {
+  client: new ClientPostgreSQL(migrationFolder, {
     database: database.name,
     hostname: database.hostname,
     port: database.port,
     user: database.user,
     password: database.password,
-  },
-  dialect: database.migration_dialect,
+  }),
 };
 
-export default configPg;
+export default config;

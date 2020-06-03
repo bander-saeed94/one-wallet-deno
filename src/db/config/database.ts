@@ -4,7 +4,7 @@ import {
 import {
   DatabaseDialect,
 } from "https://deno.land/x/denodb/lib/database.ts";
-import { database } from "../../config/index.ts";
+import { database } from "../../../config/index.ts";
 import {
   UserModel,
   WalletModel,
