@@ -16,7 +16,7 @@ export const up: Migration = () => {
       "loan_status",
       ["instantiated", "approved", "rejected"],
     )
-      .default("'instantiated'");
+      .default("instantiated");
     table.timestampsTz();
   });
   schema.queryString(`

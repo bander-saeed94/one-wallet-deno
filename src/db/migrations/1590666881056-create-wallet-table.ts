@@ -10,7 +10,7 @@ export const up: Migration = () => {
     table.uuid("id").primary();
     table.uuid("admin_id");
     table.string("name", 100)
-      .default("'update wallet name'"); //fix in neissed
+      .default("update wallet name");
     table.timestampsTz();
   });
   schema.queryString(`

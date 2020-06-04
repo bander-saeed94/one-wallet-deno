@@ -10,7 +10,7 @@ export const up: Migration = () => {
     table.primary("user_id", "wallet_id");
     table.uuid("user_id");
     table.uuid("wallet_id");
-    table.boolean("accepted").default("false");
+    table.boolean("accepted").default(false);
     table.timestampsTz();
   });
   schema.queryString(`

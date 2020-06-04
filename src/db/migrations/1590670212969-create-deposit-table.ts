@@ -11,7 +11,7 @@ export const up: Migration = () => {
     table.uuid("id").primary();
     table.uuid("user_id");
     table.uuid("wallet_id");
-    table.money("amount");
+    table.numeric("amount", 6, 2);
     table.enum(
       "deposit_type",
       ["monthlyContribution", "monthlyInstallment"],
@@ -21,7 +21,7 @@ export const up: Migration = () => {
       "deposit_status",
       ["instantiated", "approved", "rejected"],
     )
-      .default("'instantiated'"); // fix nessie
+      .default("instantiated");
     table.timestampsTz();
   });
   schema.queryString(`
