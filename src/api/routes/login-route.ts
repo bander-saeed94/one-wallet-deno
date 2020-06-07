@@ -1,33 +1,27 @@
 import { Router } from "https://deno.land/x/oak/mod.ts";
 import UserService from "../../services/user-service.ts";
 
-import { RegisterDto } from "./dto/user-register-dto.ts";
+import { LoginDto } from "./dto/user-login-dto.ts";
 let router = new Router({
-  prefix: "/api/v1/users",
+  prefix: "/api/v1/login",
 });
 
 router
-  .get(`/`, (ctx) => {
-    ctx.response.body = "some Users";
-  })
   .post("/", async (ctx) => {
     try {
-      const user: RegisterDto = (await ctx.request.body()).value;
+      const user: LoginDto = (await ctx.request.body()).value;
       if (/^[0-9]{12}$/.test(user.phoneNumberOrEmail)) {
-        await UserService.registerByPhoneNumber(
+        await UserService.loginByPhoneNumber(
           Number.parseInt(user.phoneNumberOrEmail),
           user.password,
-          user.fullname,
         );
       } else {
-        await UserService.registerByEmail(
+        await UserService.loginByEmail(
           user.phoneNumberOrEmail,
           user.password,
-          user.fullname,
         );
       }
-
-      ctx.response.status = 201; //created
+      ctx.response.status = 200; //created
     } catch (error) {
       console.log(error);
       ctx.response.body = error;

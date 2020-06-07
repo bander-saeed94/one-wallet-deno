@@ -39,10 +39,17 @@ export default class UserModel extends Model {
     },
     password: {
       type: DATA_TYPES.STRING,
-      length: 100,
+      length: 60,
     },
     email_confirmed: DATA_TYPES.BOOLEAN,
     phone_number_confirmed: DATA_TYPES.BOOLEAN,
+    email_hash: {
+      type: DATA_TYPES.UUID,
+    },
+    otp_secret: {
+      type: DATA_TYPES.STRING,
+      length: 52,
+    },
     created_at: DATA_TYPES.TIMESTAMP,
     updated_at: DATA_TYPES.TIMESTAMP,
   };

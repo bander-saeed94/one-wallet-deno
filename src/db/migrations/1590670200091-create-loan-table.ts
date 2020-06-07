@@ -1,13 +1,8 @@
 import { Migration } from "https://deno.land/x/nessie/mod.ts";
-import { Schema, dbDialects } from "https://deno.land/x/nessie/qb.ts";
-import { database } from "../../../config/index.ts";
+import { Schema } from "https://deno.land/x/nessie/qb.ts";
 
-const dialect: dbDialects = database.migration_dialect as dbDialects;
-
-export const up: Migration = () => {
-  const schema = new Schema(dialect);
-
-  schema.create("tbl_loan", (table) => {
+export const up: Migration<Schema> = ({ queryBuilder }) => {
+  queryBuilder!.create("tbl_loan", (table) => {
     table.uuid("id").primary();
     table.uuid("user_id");
     table.uuid("wallet_id");
@@ -19,7 +14,7 @@ export const up: Migration = () => {
       .default("instantiated");
     table.timestampsTz();
   });
-  schema.queryString(`
+  queryBuilder!.queryString(`
     ALTER TABLE tbl_loan
     ADD CONSTRAINT fk_tbl_loan_tbl_user
     FOREIGN KEY (user_id)
@@ -32,12 +27,11 @@ export const up: Migration = () => {
     REFERENCES tbl_wallet(id)
     ON DELETE CASCADE;
     `);
-  return schema.query;
+  return queryBuilder!.query;
 };
 
-export const down: Migration = () => {
-  const schema = new Schema(dialect);
-  schema.drop("tbl_loan");
-  schema.queryString("DROP TYPE loan_status;");
-  return schema.query;
+export const down: Migration<Schema> = ({ queryBuilder }) => {
+  queryBuilder!.drop("tbl_loan");
+  queryBuilder!.queryString("DROP TYPE loan_status;");
+  return queryBuilder!.query;
 };

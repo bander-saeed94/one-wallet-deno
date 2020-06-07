@@ -4,7 +4,7 @@ import {
 import {
   DatabaseDialect,
 } from "https://deno.land/x/denodb/lib/database.ts";
-import { database } from "../../../config/index.ts";
+import { database } from "../../config/index.ts";
 import {
   UserModel,
   WalletModel,
@@ -12,10 +12,9 @@ import {
   DepositModel,
   WalletInviteModel,
   WalletContributorModel,
-} from "../index.ts";
+} from "./index.ts";
 
-// const db_dialect: DatabaseDialect = database.model_dialect;
-const db_dialect: DatabaseDialect = "postgres";
+const db_dialect: DatabaseDialect = database.model_dialect as DatabaseDialect;
 
 const db = new Database(
   {
