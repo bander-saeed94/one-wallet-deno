@@ -2,7 +2,7 @@ import { Migration } from "https://deno.land/x/nessie/mod.ts";
 import { Schema } from "https://deno.land/x/nessie/qb.ts";
 
 export const up: Migration<Schema> = ({ queryBuilder }) => {
-  return queryBuilder!.create("tbl_user", (table) => {
+  return queryBuilder.create("tbl_user", (table) => {
     table.uuid("id").primary();
     table.string("username", 25).notNullable().unique();
     table.string("email", 35).nullable().default(null).unique();
@@ -18,5 +18,5 @@ export const up: Migration<Schema> = ({ queryBuilder }) => {
 };
 
 export const down: Migration<Schema> = ({ queryBuilder }) => {
-  return queryBuilder!.drop("tbl_user");
+  return queryBuilder.drop("tbl_user");
 };
