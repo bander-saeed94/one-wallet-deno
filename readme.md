@@ -2,13 +2,13 @@
 This a deno app. It helps groups who are contributing to be able to track their contributions and loans.
 
 ## Run locally
-First migrate the db:
-```deno run --allow-net --allow-read https://deno.land/x/nessie/cli.ts migrate```
-Run the server:
-```deno run --allow-read --allow-net --unstable src/server.ts ```
+First migrate the db:  
+```deno run --allow-net --allow-read https://deno.land/x/nessie/cli.ts migrate```  
+Run the server:  
+```deno run --allow-read --allow-net --unstable src/server.ts ```  
 
-Set Deno version 1.0.0:
-```deno upgrade --version 1.0.0```
+Set Deno version 1.0.0:  
+```deno upgrade --version 1.0.0```  
 
 ## Features
 Any user can create a wallet and be the admin.  
